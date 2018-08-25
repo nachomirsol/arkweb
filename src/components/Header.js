@@ -1,72 +1,70 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import AppBar from '@material-ui/core/AppBar';
-import ToolBar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
-import IconButton from '@material-ui/core/iconButton';
-import SideDrawer from './SideDrawer';
+import AppBar from "@material-ui/core/AppBar";
+import ToolBar from "@material-ui/core/Toolbar";
+import MenuIcon from "@material-ui/icons/Menu";
+import Button from "material-ui/Button";
 
+import SideDrawer from "./SideDrawer";
 
-class Header extends Component{
+class Header extends Component {
+  state = {
+    drawerOpen: false,
+    headerShow: false
+  };
 
-    state = {
-        drawerOpen:false,
-        headerShow:false
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = () => {
+    if (window.scrollY > 0) {
+      this.setState({
+        headerShow: true
+      });
+    } else {
+      this.setState({
+        headerShow: false
+      });
     }
+  };
 
-    componentDidMount(){
-        window.addEventListener('scroll', this.handleScroll);
+  toggleDrawer = value => {
+    this.setState({
+      drawerOpen: value
+    });
+  };
 
-    }
-
-    handleScroll = () => {
-        if(window.scrollY > 0){
-            this.setState({
-                headerShow:true
-            })
-        }else{
-            this.setState({
-                headerShow:false
-            })
-        }
-    }
-
-    toggleDrawer = (value) => {
-        this.setState({
-            drawerOpen:value
-        });
-    }
-
-    render(){
-        return(
-            <AppBar
-                position="fixed"
-                style={{
-                    backgroundColor:this.state.headerShow ? '#2f2f2f' : 'transparent',
-                    boxShadow:'none',
-                    padding:'10px 0px'
-                }}
-            >
-                <ToolBar>
-                    <div className="header_logo">
-                        <div className="font_righteous header_logo_venue">Architecture</div>
-                        <div className="header_logo_title"> construction</div>
-                    </div>
-                    <IconButton
-                        aria-label="Menu"
-                        color="inherit"
-                        onclick={()=>this.toggleDrawer(true)}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <SideDrawer
-                        open={this.state.drawerOpen}
-                        onclose={(value) => this.toggleDrawer(value)}
-                    />
-                </ToolBar>
-            </AppBar>
-        );
-    }
+  render() {
+    return (
+      <AppBar
+        position="fixed"
+        style={{
+          backgroundColor: this.state.headerShow ? "#2f2f2f" : "transparent",
+          boxShadow: "none",
+          padding: "10px 0px"
+        }}
+      >
+        <ToolBar>
+          <div className="header_logo">
+            <div className="font_righteous header_logo_venue">Architecture</div>
+            <div className="header_logo_title"> construction</div>
+          </div>
+          <Button
+            aria-label="Menu"
+            color="inherit"
+            onClick={() => this.toggleDrawer(true)}
+          >
+            <MenuIcon />
+          </Button>
+          <SideDrawer
+            open={this.state.drawerOpen}
+            onClose={value => this.toggleDrawer(value)}
+          />
+        </ToolBar>
+      </AppBar>
+    );
+  }
 }
 
-export default Header
+export default Header;
